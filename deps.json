@@ -1,0 +1,50 @@
+[
+  {
+    "name": "boringssl",
+    "url": "https://github.com/google/boringssl.git",
+    "revision": "2b44a3701a4788e1ef866ddc7f143060a3d196c9",
+    "sha256": "1bagg4mx7i1fi1qq38za6rginva7xs48bm0dq7h5vs5wmnv6wrpw"
+  },
+  {
+    "name": "curl",
+    "url": "https://github.com/curl/curl.git",
+    "revision": "1c3149881769e7bd79b072e48374e4c2b3678b2f",
+    "sha256": "1hfxb0931ks52ajjf44h9jr7d2i1nl6n2bimhdk81bdnv5c0dq46"
+  },
+  {
+    "name": "libsodium",
+    "url": "https://github.com/jedisct1/libsodium.git",
+    "revision": "9511c982fb1d046470a8b42aa36556cdb7da15de",
+    "sha256": "0q5502p4fm099aiwprn5396ki0ppdv8ajjj2v19md0jijql77xb4"
+  },
+  {
+    "name": "libuv",
+    "url": "https://github.com/libuv/libuv.git",
+    "revision": "8fb9cb919489a48880680a56efecff6a7dfb4504",
+    "sha256": "15g6ad56gjdcxmw6s7nicil4fshw6pbldpcip8wk6q4ri9zz77ym"
+  },
+  {
+    "name": "luau",
+    "url": "https://github.com/luau-lang/luau.git",
+    "revision": "54a2ea00831df4c791e6cfc896a98da75d1ae126",
+    "sha256": "0y1w7wzi6j0xsy7ixc18n32qf9n5z7dzhcdvk0q2f66axsk70q4q"
+  },
+  {
+    "name": "uSockets",
+    "url": "https://github.com/uNetworking/uSockets.git",
+    "revision": "833497e8e0988f7fd8d33cd4f6f36056c68d225d",
+    "sha256": "02f8qd4nv0d1qydkib2wkp137aid1vkp3qscazgxh38sgpcrhp36"
+  },
+  {
+    "name": "uWebSockets",
+    "url": "https://github.com/uNetworking/uWebSockets.git",
+    "revision": "c445faa38125bf782eed3fec97f83b4733c7fb91",
+    "sha256": "1gyxnljaghd97c9h5hnawxszfg1xnl3r5qysvxcksby8lidjnh04"
+  },
+  {
+    "name": "zlib",
+    "url": "https://github.com/madler/zlib.git",
+    "revision": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf",
+    "sha256": "12r98gay98w6vd1m6v1xw6k3yzc4yb7r3x6h5zjw6hbr4dcwnhsf"
+  }
+]
