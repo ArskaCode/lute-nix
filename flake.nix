@@ -78,8 +78,8 @@
           printf "%s" "$tune_hash" > extern/generated/hash.txt
           rm -f "$tmp_hash_input"
 
-          build/lute0 tools/luthier.luau configure --config release --clean lute
-          build/lute0 tools/luthier.luau build --config release --clean lute
+          build/lute0 tools/luthier.luau build --config release Lute.CLI
+          build/lute0 tools/luthier.luau build --config release Lute.Test
 
           runHook postBuild
         '';
@@ -97,7 +97,6 @@
           runHook preCheck
 
           export HOME="$TMPDIR"
-          ninja -C build/release tests/lute-tests
           ./build/release/tests/lute-tests
 
           runHook postCheck
