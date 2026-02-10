@@ -120,8 +120,8 @@
           description = "A script which fetches lute dep hashes";
         };
         program = toString (pkgs.writeShellScript "update-deps" ''
-          export PATH="${lib.makeBinPath [ pkgs.nushell pkgs.nix-prefetch-git ]}:$PATH"
-          exec nu ${./update-deps.nu} --lute-path ${lute-src} --out deps.json
+          export PATH="${lib.makeBinPath [ pkgs.nix-prefetch-git ]}:$PATH"
+          exec "${pkgs.nushell}/bin/nu" "${./update-deps.nu}" "${lute-src}"
         '');
       };
     });
