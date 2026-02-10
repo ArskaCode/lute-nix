@@ -103,14 +103,12 @@
           runHook postCheck
         '';
 
-        doCheck = false;
+        doCheck = true;
       };
     });
 
-    checks = lib.genAttrs lib.systems.flakeExposed (system: {
-      lute-tests = self.packages.${system}.default.overrideAttrs (old: {
-        doCheck = true;
-      });
+    checks = forAllSystems (pkgs: {
+      default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
     });
 
     apps = forAllSystems (pkgs: {
