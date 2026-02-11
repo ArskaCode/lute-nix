@@ -87,8 +87,10 @@
         installPhase = ''
           runHook preInstall
 
-          mkdir -p $out/bin
-          cp build/release/lute/cli/lute $out/bin/lute
+          BIN_PATH="$(build/lute0 tools/luthier.luau generate --which --config release Lute.CLI)"
+
+          mkdir -p "$out/bin"
+          cp "$BIN_PATH" "$out/bin/lute"
 
           runHook postInstall
         '';
@@ -96,8 +98,10 @@
         checkPhase = ''
           runHook preCheck
 
+          BIN_PATH="$(build/lute0 tools/luthier.luau generate --which --config release Lute.Test)"
+
           export HOME="$TMPDIR"
-          ./build/release/tests/lute-tests
+          "$BIN_PATH"
 
           runHook postCheck
         '';
