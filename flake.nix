@@ -62,6 +62,10 @@
           cp tools/templates/cli_impl.cpp lute/cli/generated/commands.cpp
           cp tools/templates/cli_header.h lute/cli/generated/commands.h
 
+          mkdir -p lute/batteries/generated
+          cp tools/templates/batteries_impl.cpp lute/batteries/generated/batteries.cpp
+          cp tools/templates/batteries_header.h lute/batteries/generated/batteries.h
+
           cmake -G Ninja -B build/debug -DCMAKE_BUILD_TYPE=Debug
           ninja -C build/debug lute/cli/lute
 

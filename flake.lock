@@ -3,11 +3,11 @@
     "lute-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1770518401,
-        "narHash": "sha256-pZkUCbW1qPGvIt1PgcjWSy/Od8ySuRZSGcEjdbnNoHQ=",
+        "lastModified": 1770757615,
+        "narHash": "sha256-GkJb9Fnc3YtsEWAmtVWCX37ktEpYu5w8+OeMa/ONR8g=",
         "owner": "luau-lang",
         "repo": "lute",
-        "rev": "d2cbbaed81b9fc524b997d507380a4af68f67968",
+        "rev": "06ef228aaaae0a01cfc6b373adb2a7252b6de0e6",
         "type": "github"
       },
       "original": {
