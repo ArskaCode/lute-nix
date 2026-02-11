@@ -1,23 +1,27 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
-
-    lute-src = {
-      url = "github:luau-lang/lute";
-      flake = false;
-    };
   };
 
   outputs = {
     self,
     nixpkgs,
-    lute-src,
     ...
   }: let
     inherit (nixpkgs) lib;
 
     forAllSystems = f:
       lib.genAttrs lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
+
+    pname = "lute";
+    version = "0.1.0-nightly.20260211";
+
+    src = pkgs: pkgs.fetchFromGitHub {
+      owner = "luau-lang";
+      repo = "lute";
+      tag = version;
+      hash = "sha256-GkJb9Fnc3YtsEWAmtVWCX37ktEpYu5w8+OeMa/ONR8g=";
+    };
   in {
     packages = forAllSystems (pkgs: let
       deps = builtins.fromJSON (builtins.readFile ./deps.json);
@@ -36,10 +40,9 @@
       '') extern);
     in {
       default = pkgs.llvmPackages_18.libcxxStdenv.mkDerivation {
-        pname = "lute";
-        version = "0.1.0";
+        inherit pname version;
 
-        src = lute-src;
+        src = src pkgs;
 
         nativeBuildInputs = with pkgs; [
           cmake
@@ -126,7 +129,7 @@
         };
         program = toString (pkgs.writeShellScript "update-deps" ''
           export PATH="${lib.makeBinPath [ pkgs.nix-prefetch-git ]}:$PATH"
-          exec "${pkgs.nushell}/bin/nu" "${./update-deps.nu}" "${lute-src}"
+          exec "${pkgs.nushell}/bin/nu" "${./update-deps.nu}" "${src pkgs}"
         '');
       };
     });
