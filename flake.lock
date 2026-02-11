@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "lute-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1770757615,
-        "narHash": "sha256-GkJb9Fnc3YtsEWAmtVWCX37ktEpYu5w8+OeMa/ONR8g=",
-        "owner": "luau-lang",
-        "repo": "lute",
-        "rev": "06ef228aaaae0a01cfc6b373adb2a7252b6de0e6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "luau-lang",
-        "repo": "lute",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1770748344,
@@ -33,7 +17,6 @@
     },
     "root": {
       "inputs": {
-        "lute-src": "lute-src",
         "nixpkgs": "nixpkgs"
       }
     }
