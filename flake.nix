@@ -14,13 +14,13 @@
       lib.genAttrs lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
 
     pname = "lute";
-    version = "0.1.0-nightly.20260227";
+    version = "0.1.0-nightly.20260228";
 
     src = pkgs: pkgs.fetchFromGitHub {
       owner = "luau-lang";
       repo = "lute";
       tag = version;
-      hash = "sha256-pQ/Cq1YJBQHLV5KtG5EuaObtuDf2xUhx2ckjb05ZPt0=";
+      hash = "sha256-q4YyyPDyQSoxBY/JwVVKE/+0Kry+ek8lxvgtxgdHjqk=";
     };
   in {
     packages = forAllSystems (pkgs: let
