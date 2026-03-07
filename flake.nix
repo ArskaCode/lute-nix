@@ -14,13 +14,13 @@
       lib.genAttrs lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
 
     pname = "lute";
-    version = "0.1.0-nightly.20260303";
+    version = "0.1.0-nightly.20260307";
 
     src = pkgs: pkgs.fetchFromGitHub {
       owner = "luau-lang";
       repo = "lute";
       tag = version;
-      hash = "sha256-N0lF/flPGDn/k8cw0mQ9IxAAvN9w+ca9GHoQ+qfJLkE=";
+      hash = "sha256-O9PezCkhWNSrx0yzeVlW5wnAmkq7Nve95oAU+i66Ets=";
     };
   in {
     packages = forAllSystems (pkgs: let
@@ -68,6 +68,10 @@
           mkdir -p lute/batteries/generated
           cp tools/templates/batteries_impl.cpp lute/batteries/generated/batteries.cpp
           cp tools/templates/batteries_header.h lute/batteries/generated/batteries.h
+
+          mkdir -p lute/definitions/src/generated
+          cp tools/templates/definitions_impl.cpp lute/definitions/src/generated/modules.cpp
+          cp tools/templates/definitions_header.h lute/definitions/src/generated/modules.h
 
           cmake -G Ninja -B build/debug -DCMAKE_BUILD_TYPE=Debug
           ninja -C build/debug lute/cli/lute
