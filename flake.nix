@@ -20,19 +20,23 @@
       url = "https://github.com/luau-lang/lute/archive/refs/tags/v${version}.tar.gz";
       sha256 = "sha256-g52fa/dQ4/Fk+NwbckrPtSkEjjql/+EU3tHsiV4jH40=";
     };
+
+    # Lute pins its dependencies in extern/*.tune. Read them straight from the source:
+    extern = let
+      tunes = lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".tune" name) (builtins.readDir "${src}/extern");
+      deps = map (name: (fromTOML (builtins.readFile "${src}/extern/${name}")).dependency) (builtins.attrNames tunes);
+    in
+      lib.listToAttrs (map (dep: {
+          name = dep.name;
+          value = fetchGit {
+            url = dep.remote;
+            rev = dep.revision;
+            shallow = true;
+          };
+        })
+        deps);
   in {
     packages = forAllSystems (pkgs: let
-      deps = builtins.fromJSON (builtins.readFile ./deps.json);
-      extern = lib.listToAttrs (map (dep: {
-        name = dep.name;
-        value = pkgs.fetchgit {
-          url = dep.url;
-          rev = dep.revision;
-          sha256 = dep.sha256;
-          fetchSubmodules = false;
-        };
-      }) deps);
-
       copyExterns = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: path: ''
         cp -R --no-preserve=mode ${path} extern/${name}
       '') extern);
@@ -121,19 +125,6 @@
 
     checks = forAllSystems (pkgs: {
       default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    });
-
-    apps = forAllSystems (pkgs: {
-      update-deps = {
-        type = "app";
-        meta = {
-          description = "A script which fetches lute dep hashes";
-        };
-        program = toString (pkgs.writeShellScript "update-deps" ''
-          export PATH="${lib.makeBinPath [ pkgs.nix-prefetch-git ]}:$PATH"
-          exec "${pkgs.nushell}/bin/nu" "${./update-deps.nu}" "${src}"
-        '');
-      };
     });
   };
 }
