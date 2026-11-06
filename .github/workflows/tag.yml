@@ -1,0 +1,26 @@
+name: tag
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths: ["lute.json"]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Tag the pinned Lute version
+        run: |
+          tag="v$(jq -r .version lute.json)"
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then
+            echo "$tag already exists"
+          else
+            git tag "$tag"
+            git push origin "$tag"
+          fi
