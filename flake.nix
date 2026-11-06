@@ -16,11 +16,9 @@
     pname = "lute";
     version = "1.0.0";
 
-    src = pkgs: pkgs.fetchFromGitHub {
-      owner = "luau-lang";
-      repo = "lute";
-      tag = "v${version}";
-      hash = "sha256-g52fa/dQ4/Fk+NwbckrPtSkEjjql/+EU3tHsiV4jH40=";
+    src = fetchTarball {
+      url = "https://github.com/luau-lang/lute/archive/refs/tags/v${version}.tar.gz";
+      sha256 = "sha256-g52fa/dQ4/Fk+NwbckrPtSkEjjql/+EU3tHsiV4jH40=";
     };
   in {
     packages = forAllSystems (pkgs: let
@@ -42,7 +40,7 @@
       default = pkgs.llvmPackages_18.libcxxStdenv.mkDerivation {
         inherit pname version;
 
-        src = src pkgs;
+        inherit src;
 
         nativeBuildInputs = with pkgs; [
           cmake
@@ -133,7 +131,7 @@
         };
         program = toString (pkgs.writeShellScript "update-deps" ''
           export PATH="${lib.makeBinPath [ pkgs.nix-prefetch-git ]}:$PATH"
-          exec "${pkgs.nushell}/bin/nu" "${./update-deps.nu}" "${src pkgs}"
+          exec "${pkgs.nushell}/bin/nu" "${./update-deps.nu}" "${src}"
         '');
       };
     });
