@@ -129,5 +129,17 @@
     checks = forAllSystems (pkgs: {
       default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
     });
+
+    apps = forAllSystems (pkgs: {
+      default = {
+        type = "app";
+        program = "${self.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/lute";
+        meta.description = "The Lute runtime for Luau";
+      };
+    });
+
+    overlays.default = final: _prev: {
+      lute = self.packages.${final.stdenv.hostPlatform.system}.default;
+    };
   };
 }
