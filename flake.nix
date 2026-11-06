@@ -14,11 +14,14 @@
       lib.genAttrs lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
 
     pname = "lute";
-    version = "1.0.0";
+
+    # Updated by .github/workflows/update-lute.yml
+    release = lib.importJSON ./lute.json;
+    inherit (release) version;
 
     src = fetchTarball {
       url = "https://github.com/luau-lang/lute/archive/refs/tags/v${version}.tar.gz";
-      sha256 = "sha256-g52fa/dQ4/Fk+NwbckrPtSkEjjql/+EU3tHsiV4jH40=";
+      sha256 = release.hash;
     };
 
     # Lute pins its dependencies in extern/*.tune. Read them straight from the source:

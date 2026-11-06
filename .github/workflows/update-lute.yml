@@ -1,0 +1,53 @@
+name: update-lute
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Find latest Lute release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Stable releases only
+          tag="$(gh api repos/luau-lang/lute/releases/latest --jq .tag_name)"
+          latest="${tag#v}"
+          current="$(jq -r .version lute.json)"
+          echo "current=$current latest=$latest"
+          echo "version=$latest" >> "$GITHUB_OUTPUT"
+          if [ "$latest" != "$current" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Bump version and hash
+        if: steps.release.outputs.changed == 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          hash="$(nix flake prefetch --json "https://github.com/luau-lang/lute/archive/refs/tags/v$VERSION.tar.gz" | jq -r .hash)"
+          jq --arg version "$VERSION" --arg hash "$hash" '.version = $version | .hash = $hash' lute.json > lute.json.new
+          mv lute.json.new lute.json
+      - name: Build and test
+        if: steps.release.outputs.changed == 'true'
+        run: nix flake check -L
+      - name: Open pull request
+        if: steps.release.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: update-lute
+          commit-message: update to ${{ steps.release.outputs.version }}
+          title: update to ${{ steps.release.outputs.version }}
+          body: |
+            Lute ${{ steps.release.outputs.version }} was released: https://github.com/luau-lang/lute/releases/tag/v${{ steps.release.outputs.version }}
+
+            `nix flake check` already passed in the workflow that opened this PR.
