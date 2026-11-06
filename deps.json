@@ -26,8 +26,8 @@
   {
     "name": "luau",
     "url": "https://github.com/luau-lang/luau.git",
-    "revision": "964580112c1b59b19c4985dcc66be79162355b12",
-    "sha256": "02q5l5pnf4f8aaz5b76pvq84yd4yp4axa6bai3n1j5z0rcr7jknl"
+    "revision": "4ca11dbc3b31ddf27ee8ec1ab6c036676de9f240",
+    "sha256": "1pspdyd3fryn5d1swpia5qyfvsgqrzvchhd70ckxphz4mkbwkxcx"
   },
   {
     "name": "uSockets",
